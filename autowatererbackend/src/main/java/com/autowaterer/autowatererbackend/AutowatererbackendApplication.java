@@ -9,11 +9,9 @@ public class AutowatererbackendApplication {
 
 	public static void main(String[] args) {
 		ApplicationContext  context = SpringApplication.run(AutowatererbackendApplication.class, args);
-		var orderService = context.getBean(OrderService.class);
-		var moistureService = context.getBean(MoistureService.class);
+		var moistureObserver = context.getBean(MoistureObserver.class);
 		var webSocketService = context.getBean(ArduinoWebSocketClientService.class);
-		moistureService.getMoisture();
-		orderService.placeOrder();
+		var moistureController = context.getBean(MoistureController.class);
 	}
 
 }
