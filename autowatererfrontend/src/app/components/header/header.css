@@ -1,0 +1,23 @@
+div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 5%;
+}
+h1 {
+    font-size: 40px;
+}
+button {
+    min-height: 50px;
+    width: fit-content;
+    background-color: #A67C52;
+    border: 0;
+    border-radius: 15px;
+    padding-inline: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #7BB3D9;
+}

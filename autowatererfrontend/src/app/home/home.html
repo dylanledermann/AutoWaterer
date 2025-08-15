@@ -1,2 +1,12 @@
-<p>Current Moisture Level:</p>
-<p>{{moisture()}}</p>
+<div class="">
+    <p id="Description">
+        Hi, welcome to this website which displays the moisture level of my plant! 
+        The plant has a capacitive moisture sensor that is connected to an Arduino Nano ESP32. 
+        The Arduino has WiFi capabilities, which allows me to connect to a websocket on the backend and send the moisture levels to the frontend. 
+        There is a "Water Plant" button above this that allows you to water the plant unless it has enough water already.
+    </p>
+    <div id="MoistureContainer">
+        <h2>Current Moisture Level:</h2>
+        <p id="Moisture">{{moisture()}}</p>
+    </div>
+</div>

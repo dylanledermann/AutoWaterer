@@ -10,4 +10,8 @@ export class Moisture {
     const url = `http://localhost:8080/api/moisture`;
     return this.http.get<number>(url);
   }
+  addMoistureFromApi(){
+    const url = `http://localhost:8080/api/moisture`;
+    return this.http.post(url, null);
+  }
 }
