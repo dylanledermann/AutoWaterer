@@ -21,3 +21,8 @@ button {
 button:hover {
     background-color: #7BB3D9;
 }
+
+button:disabled {
+    background-color: grey;
+    cursor: default;
+}

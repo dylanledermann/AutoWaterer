@@ -1,4 +1,6 @@
 <div>
     <h1>{{ title() }}</h1>
-    <button (click) = "waterPlant()"><h3>Water Plant</h3></button>
+    <button 
+    [disabled]= "this.moistureApi.moisture() > 90"
+    (click) = "waterPlant()"><h3>Water Plant</h3></button>
 </div>

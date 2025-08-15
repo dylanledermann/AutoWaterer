@@ -12,13 +12,13 @@ export class Header {
   protected readonly title = signal('Auto Water');
   moistureApi = inject(Moisture);
   waterPlant() {
-    this.moistureApi.addMoistureFromApi()
-    .pipe(
-      catchError((err) => {
-        console.log(err);
-        throw err;
-      })
-    )
-    .subscribe();
+    if (this.moistureApi.moisture() < 90){
+      this.moistureApi.addMoistureFromApi().pipe(
+        catchError((err) => {
+          console.log(err);
+          throw err;
+        })
+      ).subscribe();
+    }
   }
 }
