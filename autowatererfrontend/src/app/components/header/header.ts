@@ -19,8 +19,6 @@ export class Header {
         throw err;
       })
     )
-    .subscribe((m) => {
-      console.log(m);
-    });;
+    .subscribe();
   }
 }

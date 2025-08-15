@@ -1,6 +1,6 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, Inject, inject, Renderer2 } from '@angular/core';
 import { Moisture } from '../services/moisture';
-import { catchError } from 'rxjs';
+import {DOCUMENT} from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -9,18 +9,22 @@ import { catchError } from 'rxjs';
   styleUrl: './home.css'
 })
 export class Home {
-  moisture = signal(0);
+  constructor(
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
+  ){}
   moistureApi = inject(Moisture);
+  moisture = this.moistureApi.moisture;
   ngOnInit(): void {
-    this.moistureApi.getMoistureFromApi()
-      .pipe(
-        catchError((err) => {
-          console.log(err);
-          throw err;
-        })
-      )
-      .subscribe((moisture: number) => {
-        this.moisture.set(moisture);
-      });
+    this.moisture = this.moistureApi.getMoisture();
+    var adjustedHeight = 100-this.moisture();
+    this.changeWaveHeight(adjustedHeight.toString() + "%");
+  }
+  changeWaveHeight(height: string){
+    this.renderer.setStyle(
+      this.document.documentElement,
+      '--wave-height',
+      height
+    )
   }
 }
