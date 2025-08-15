@@ -45,6 +45,10 @@ public class ArduinoWebSocketClientService extends WebSocketClient {
         logger.error("Websocket erro: ", e);
     }
 
+    public void sendMessage(String message){
+        send(message);
+    }
+
     @PostConstruct
     public void connectToArduino(){
         this.connect();
