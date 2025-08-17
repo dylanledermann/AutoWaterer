@@ -13,6 +13,7 @@ export class Header {
   moistureApi = inject(Moisture);
   waterPlant() {
     if (this.moistureApi.moisture() < 90){
+      this.moistureApi.waterPlant();
       this.moistureApi.addMoistureFromApi().pipe(
         catchError((err) => {
           console.log(err);

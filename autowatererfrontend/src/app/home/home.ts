@@ -16,6 +16,7 @@ export class Home {
   moistureApi = inject(Moisture);
   moisture = this.moistureApi.moisture;
   ngOnInit(): void {
+    this.moistureApi.createMoistureWebsocket();
     this.moisture = this.moistureApi.getMoisture();
     var adjustedHeight = 100-this.moisture();
     this.changeWaveHeight(adjustedHeight.toString() + "%");
