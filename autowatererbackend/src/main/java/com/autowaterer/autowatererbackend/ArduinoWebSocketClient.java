@@ -18,10 +18,12 @@ public class ArduinoWebSocketClient extends WebSocketClient {
     // Logger to log messages
     private static final Logger logger = LoggerFactory.getLogger(ArduinoWebSocketClient.class);
     private final MoistureObserver moistureObserver;
+    private final FrontendWebSocketServer ws;
 
-    public ArduinoWebSocketClient(@Value("${app.arduino.ip}") String ArduinoIP, @Value("${app.arduino.port}") String ArduinoPort, MoistureObserver moistureObserver) throws URISyntaxException {
+    public ArduinoWebSocketClient(@Value("${app.arduino.ip}") String ArduinoIP, @Value("${app.arduino.port}") String ArduinoPort, MoistureObserver moistureObserver, FrontendWebSocketServer ws) throws URISyntaxException {
         super(new URI("ws://" + ArduinoIP + ":" + ArduinoPort));
         this.moistureObserver = moistureObserver;
+        this.ws = ws;
     }
 
     @Override
@@ -37,7 +39,11 @@ public class ArduinoWebSocketClient extends WebSocketClient {
     @Override
     public void onMessage(String message){
         JSONObject json = new JSONObject(message);
-        moistureObserver.setMoisture(json.getInt("Moisture"));
+        int newMoisture = json.getInt("Moisture");
+        if(newMoisture != moistureObserver.getMoisture()){
+            moistureObserver.setMoisture(newMoisture);
+            ws.broadcastMoisture();
+        }
     }
 
     @Override
