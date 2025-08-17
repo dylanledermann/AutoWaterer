@@ -14,12 +14,12 @@ import org.springframework.stereotype.Service;
 import jakarta.annotation.PostConstruct;
 
 @Service
-public class ArduinoWebSocketClientService extends WebSocketClient {
+public class ArduinoWebSocketClient extends WebSocketClient {
     // Logger to log messages
-    private static final Logger logger = LoggerFactory.getLogger(ArduinoWebSocketClientService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ArduinoWebSocketClient.class);
     private final MoistureObserver moistureObserver;
 
-    public ArduinoWebSocketClientService(@Value("${app.arduino.ip}") String ArduinoIP, @Value("${app.arduino.port}") String ArduinoPort, MoistureObserver moistureObserver) throws URISyntaxException {
+    public ArduinoWebSocketClient(@Value("${app.arduino.ip}") String ArduinoIP, @Value("${app.arduino.port}") String ArduinoPort, MoistureObserver moistureObserver) throws URISyntaxException {
         super(new URI("ws://" + ArduinoIP + ":" + ArduinoPort));
         this.moistureObserver = moistureObserver;
     }
@@ -42,7 +42,7 @@ public class ArduinoWebSocketClientService extends WebSocketClient {
 
     @Override
     public void onError(Exception e) {
-        logger.error("Websocket erro: ", e);
+        logger.error("Websocket error: ", e);
     }
 
     public void sendMessage(String message){

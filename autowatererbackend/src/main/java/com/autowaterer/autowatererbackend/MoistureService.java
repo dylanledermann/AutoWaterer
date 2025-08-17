@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MoistureService {
-    private final ArduinoWebSocketClientService webSocket;
-    public MoistureService(ArduinoWebSocketClientService webSocket){
+    private final ArduinoWebSocketClient webSocket;
+    public MoistureService(ArduinoWebSocketClient webSocket){
         this.webSocket = webSocket;
     }
 
