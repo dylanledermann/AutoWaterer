@@ -49,7 +49,7 @@ jobs:
       pages: write
       id-token: write
     environment:
-      name: github-pages
+      name: angular-build-artifact
       url: ${{ steps.deployment.outputs.page_url }}
 
     runs-on: ubuntu-latest
