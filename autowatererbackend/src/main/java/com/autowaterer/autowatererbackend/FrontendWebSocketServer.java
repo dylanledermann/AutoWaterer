@@ -39,7 +39,7 @@ public class FrontendWebSocketServer extends WebSocketServer{
     public void onMessage(WebSocket conn, String message) {
         logger.info("Received message: {}", message);
         if(message == "Add Moisture"){
-            broadcast(Integer.toString(moistureObserver.getMoisture()));
+            conn.send(Integer.toString(moistureObserver.getMoisture()));
         }
     }
 
