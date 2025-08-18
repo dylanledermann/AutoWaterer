@@ -21,7 +21,7 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - name: Checkout source code
+    - name: Checkout Source Code
       uses: actions/checkout@v4
     
     - name: Setup Nodejs
@@ -37,3 +37,23 @@ jobs:
     #   run: npm run test:ci
     - name: Build
       run: npm run build --if-present
+    - name: Save Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: angular-build-artifact
+        path: autowatererfrontend/dist/
+  deploy:
+    needs: build
+
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Github Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
