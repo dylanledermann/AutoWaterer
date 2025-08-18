@@ -1,19 +1,24 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, inject, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
 import { catchError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Moisture {
-  http = inject(HttpClient);
-  moisture = signal(0);
-  ws = new WebSocket('ws://localhost:3000');
-  
+  moisture = signal("Connecting");
+  ws?: WebSocket;
 
-  // Websocket creation method
-  createMoistureWebsocket(){
-    // Listener for when the websocket connects
+  constructor (@Inject(PLATFORM_ID) private platformId: Object){
+    if (isPlatformBrowser(this.platformId)){
+      this.initWebSocket();
+    }
+  }
+  
+  private initWebSocket(){
+    this.ws = new WebSocket('ws://192.168.5.83:3000');
+
+    // Listener for when the websocket opens
     this.ws.addEventListener('open', event => {
       console.log("Websocket connection established");
     });
@@ -25,7 +30,7 @@ export class Moisture {
 
     // Listener for when a message is received from the websocket
     this.ws.addEventListener('message', event => {
-      this.moisture.set(Number(event.data));
+      this.moisture.set(event.data);
       return event;
     });
 
@@ -37,34 +42,6 @@ export class Moisture {
 
   // Send websocket message to water the plant
   waterPlant() {
-    this.ws.send("Add Moisture");
-  }
-
-  // Get moisture from api function
-  getMoistureFromApi() {
-    const url = `http://localhost:8080/api/moisture`;
-    return this.http.get<number>(url);
-  }
-
-  // Calls the get moisture from api method. Parses the message for the html and ts
-  getMoisture(){
-    this.getMoistureFromApi()
-      .pipe(
-        catchError((err) => {
-          console.log(err);
-          throw err;
-        })
-      )
-      .subscribe((moisture: number) => {
-        this.moisture.set(moisture);
-      });
-
-    return this.moisture;
-  }
-
-  // Sends post request to the backend that tells the backend to water the plant if possible
-  addMoistureFromApi(){
-    const url = `http://localhost:8080/api/moisture`;
-    return this.http.post(url, null);
+    this.ws?.send("Add Moisture");
   }
 }

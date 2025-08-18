@@ -1,6 +1,6 @@
 <div>
     <h1>{{ title() }}</h1>
     <button 
-    [disabled]= "this.moistureApi.moisture() >= 90"
+    [disabled]= "this.moistureApi.moisture() != 'Connecting' && +this.moistureApi.moisture() >= 90"
     (click) = "waterPlant()"><h3>Water Plant</h3></button>
 </div>

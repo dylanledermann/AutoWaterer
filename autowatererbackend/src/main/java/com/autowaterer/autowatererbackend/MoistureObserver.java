@@ -7,7 +7,7 @@ public class MoistureObserver {
     private int moisture;
 
     public MoistureObserver(){
-        this.moisture = 0;
+        this.moisture = 50;
     }
 
     public void setMoisture(int moisture){

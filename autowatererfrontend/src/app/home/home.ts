@@ -1,4 +1,4 @@
-import { Component, Inject, inject, Renderer2 } from '@angular/core';
+import { Component, effect, Inject, inject, Renderer2 } from '@angular/core';
 import { Moisture } from '../services/moisture';
 import {DOCUMENT} from '@angular/common';
 
@@ -12,15 +12,17 @@ export class Home {
   constructor(
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document
-  ){}
+  ){
+    effect(() => {
+      if(this.moisture() != "Connecting"){
+        var adjustedHeight = 100-Number(this.moisture());
+        this.changeWaveHeight(adjustedHeight.toString() + "%");
+      }
+    }
+    )
+  }
   moistureApi = inject(Moisture);
   moisture = this.moistureApi.moisture;
-  ngOnInit(): void {
-    this.moistureApi.createMoistureWebsocket();
-    this.moisture = this.moistureApi.getMoisture();
-    var adjustedHeight = 100-this.moisture();
-    this.changeWaveHeight(adjustedHeight.toString() + "%");
-  }
   changeWaveHeight(height: string){
     this.renderer.setStyle(
       this.document.documentElement,

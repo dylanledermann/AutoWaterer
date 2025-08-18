@@ -12,14 +12,8 @@ export class Header {
   protected readonly title = signal('Auto Water');
   moistureApi = inject(Moisture);
   waterPlant() {
-    if (this.moistureApi.moisture() < 90){
+    if (this.moistureApi.moisture() != "Connecting" && Number(this.moistureApi.moisture()) < 90){
       this.moistureApi.waterPlant();
-      this.moistureApi.addMoistureFromApi().pipe(
-        catchError((err) => {
-          console.log(err);
-          throw err;
-        })
-      ).subscribe();
     }
   }
 }
