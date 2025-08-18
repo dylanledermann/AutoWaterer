@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-
+    name: Angular Build
     runs-on: ubuntu-latest
 
     defaults:
