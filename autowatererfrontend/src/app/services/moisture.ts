@@ -16,7 +16,7 @@ export class Moisture {
   }
   
   private initWebSocket(){
-    this.ws = new WebSocket('ws://192.168.5.83:3000');
+    this.ws = new WebSocket('wss://dylanledermannawbackend.duckdns.org');
 
     // Listener for when the websocket opens
     this.ws.addEventListener('open', event => {
