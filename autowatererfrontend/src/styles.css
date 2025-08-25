@@ -2,6 +2,9 @@
 :root{
     --wave-height: 60%;
 }
+body {
+    overflow-x: hidden;
+}
 .water {
     position: absolute;
     top: 0;
