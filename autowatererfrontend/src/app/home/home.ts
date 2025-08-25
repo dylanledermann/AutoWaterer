@@ -24,10 +24,9 @@ export class Home {
   moistureApi = inject(Moisture);
   moisture = this.moistureApi.moisture;
   changeWaveHeight(height: string){
-    this.renderer.setStyle(
-      this.document.documentElement,
-      '--wave-height',
-      height
-    )
+    const currentValue = getComputedStyle(this.document.documentElement)
+      .getPropertyValue('--wave-height');
+    this.document.documentElement.style.cssText = "--wave-height: " + height;
+    console.log('Current CSS value:', currentValue);
   }
 }
