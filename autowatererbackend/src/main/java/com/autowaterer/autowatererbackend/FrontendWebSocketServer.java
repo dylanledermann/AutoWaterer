@@ -17,11 +17,12 @@ public class FrontendWebSocketServer extends WebSocketServer{
 
     private static final Logger logger = LoggerFactory.getLogger(ArduinoWebSocketClient.class);
     private MoistureObserver moistureObserver;
-
-    public FrontendWebSocketServer(MoistureObserver moistureObserver) throws UnknownHostException{
+    private ArduinoWebSocketClient ws;
+    public FrontendWebSocketServer(MoistureObserver moistureObserver, ArduinoWebSocketClient ws) throws UnknownHostException{
         super(new InetSocketAddress(3000));
         logger.info("Socket Address: {}", new InetSocketAddress(3000));
         this.moistureObserver = moistureObserver;
+        this.ws = ws;
     }
 
     @Override
@@ -38,8 +39,8 @@ public class FrontendWebSocketServer extends WebSocketServer{
     @Override
     public void onMessage(WebSocket conn, String message) {
         logger.info("Received message: {}", message);
-        if(message == "Add Moisture"){
-            conn.send(Integer.toString(moistureObserver.getMoisture()));
+        if(message.equals("Add Moisture")){
+            ws.send("Turn On Water");
         }
     }
 
