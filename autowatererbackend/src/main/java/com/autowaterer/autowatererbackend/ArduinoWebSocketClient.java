@@ -2,6 +2,8 @@ package com.autowaterer.autowatererbackend;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -35,6 +37,9 @@ public class ArduinoWebSocketClient extends WebSocketClient {
     @Override
     public void onOpen(ServerHandshake handshake){
         logger.info("Connected to Arduino");
+        send("day");
+        send("week");
+        send("month");
         this.reconnects = 0;
     }
 
@@ -54,6 +59,28 @@ public class ArduinoWebSocketClient extends WebSocketClient {
             }
         } catch (Exception e){
             logger.error("Reconnect error: ", e);
+        }
+    }
+
+    @Override
+    public void onMessage(ByteBuffer message){
+        message.order(ByteOrder.BIG_ENDIAN);
+        if(message.hasArray()){
+            byte[]  byteArray = message.array();
+            logger.info("Array from ByteBuffer: ");
+            for(byte b: byteArray){
+                System.out.print(String.valueOf(b & 0xFF) + " ");
+            }
+            System.out.println();
+        }
+        else{
+            byte[] byteArray = new byte[message.remaining()];
+            message.get(byteArray);
+            logger.info("Array not from ByteBuffer: ", byteArray.toString());
+            for(byte b: byteArray){
+                System.out.print(String.valueOf(b & 0xFF) + " ");
+            }
+            System.out.println();
         }
     }
 
